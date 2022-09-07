@@ -15,6 +15,9 @@ module.exports = function(app) {
   app.get("/api/user", [authJwt.verifyToken], controller.userBoard);
   app.get("/api/user/list", [authJwt.verifyToken], tutorials.findAll);
   app.get("/api/user/list/:id", [authJwt.verifyToken], tutorials.findOne);
+  app.post("/api/user/create", [authJwt.verifyToken], controller.userUnauthorizedBoard);
+  app.put("/api/user/update/:id", [authJwt.verifyToken], controller.userUnauthorizedBoard);
+  app.delete("/api/user/delete/:id", [authJwt.verifyToken], controller.userUnauthorizedBoard);
 
   app.get("/api/admin", [authJwt.verifyToken, authJwt.isAdmin], controller.adminBoard);
   app.get("/api/admin/list", [authJwt.verifyToken, authJwt.isAdmin], tutorials.findAll);

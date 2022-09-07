@@ -1,5 +1,5 @@
 module.exports = {
   secret: "RestAPIsecretkey",
-  jwtExpiration: 300,
-  jwtRefreshExpiration: 600
+  jwtExpiration: 180,
+  jwtRefreshExpiration: 360
 };
