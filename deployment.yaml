@@ -5,6 +5,7 @@ metadata:
   labels:
     name: rest-api
 spec:
+  replicas: 5
   selector:
     matchLabels:
       name: rest-api 
