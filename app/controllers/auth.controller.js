@@ -118,9 +118,7 @@ exports.refreshToken = async (req, res) => {
   }
 
   try {
-    let refreshToken = await RefreshToken.findOne({ where: { token: requestToken } });
-
-    console.log(refreshToken)
+    let refreshToken = await RefreshToken.findOne({ token: requestToken });
 
     if (!refreshToken) {
       res.status(403).json({ message: "Refresh token is not in database!" });
@@ -128,7 +126,7 @@ exports.refreshToken = async (req, res) => {
     }
 
     if (RefreshToken.verifyExpiration(refreshToken)) {
-      RefreshToken.destroy({ where: { id: refreshToken.id } });
+      RefreshToken.findByIdAndRemove(refreshToken._id, { useFindAndModify: false }).exec();
 
       res.status(403).json({
         message: "Refresh token was expired. Please make a new signin request",
@@ -136,8 +134,7 @@ exports.refreshToken = async (req, res) => {
       return;
     }
 
-    const user = await refreshToken.getUser();
-    let newAccessToken = jwt.sign({ id: user.id }, config.secret, {
+    let newAccessToken = jwt.sign({ id: refreshToken.user._id }, config.secret, {
       expiresIn: config.jwtExpiration,
     });
 
